@@ -13,7 +13,10 @@ class WsEth extends WebSocket {
     this.on('newHeads', this.handleNewBlock)
     this.common=null
 	}
-  call = (method, params, defaultBlock=0, useEvents=false) => {
+  call = (method, params, defaultBlock=0) => {
+    if (this.readyState !== this.OPEN) {
+      return new Promise( res => this.once('open', () => res(this.call(method,params,defaultBlock))))
+    }
     const promise = new Promise((resolve,reject) => {
       const payload = {
         jsonrpc: '2.0',
@@ -29,19 +32,17 @@ class WsEth extends WebSocket {
       })
       this.requestQueue.set(this.rpc_id, {resolve,reject})
     })
-    if (useEvents) {
-      const emitter = new EventEmitter()
-      promise._events = emitter._events;
-      promise.emit = emitter.emit;
-      promise.on = emitter.on;
-      promise.once = emitter.once;
-      promise.off = emitter.off;
-      promise.listeners = emitter.listeners;
-      promise.addListener = emitter.addListener;
-      promise.removeListener = emitter.removeListener;
-      promise.removeAllListeners = emitter.removeAllListeners;
-      this.statusEmitters.set(this.rpc_id, emitter)
-    }
+    const emitter = new EventEmitter()
+    promise._events = emitter._events;
+    promise.emit = emitter.emit;
+    promise.on = emitter.on;
+    promise.once = emitter.once;
+    promise.off = emitter.off;
+    promise.listeners = emitter.listeners;
+    promise.addListener = emitter.addListener;
+    promise.removeListener = emitter.removeListener;
+    promise.removeAllListeners = emitter.removeAllListeners;
+    this.statusEmitters.set(this.rpc_id, emitter)
     return promise
   }
   subscribe = (name, cb=()=>{}) => {
