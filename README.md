@@ -2,6 +2,9 @@ Simple Eth RPC-JSON Websocket client
 
 # Get started
 ```js
+npm install eth-ws
+```
+```js
 const WsEth = require('eth-ws')
 const wsEth = new WsEth('wss://mainnet.infura.io/ws/v3/YOUR-PROJECT-ID')
 
