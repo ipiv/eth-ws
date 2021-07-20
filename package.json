@@ -1,0 +1,18 @@
+{
+  "name": "eth-ws",
+  "version": "1.0.0",
+  "description": "Eth JSON-RPC WebSocket client",
+  "main": "index.js",
+  "keywords": [
+    "eth",
+    "json-rpc",
+    "websocket",
+    "ws"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@ethereumjs/tx": "^3.3.0",
+    "ws": "^7.5.3"
+  }
+}
