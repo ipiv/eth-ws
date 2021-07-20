@@ -9,6 +9,7 @@
     "websocket",
     "ws"
   ],
+  "repository": "github:ipiv/eth-ws",
   "author": "",
   "license": "MIT",
   "dependencies": {
